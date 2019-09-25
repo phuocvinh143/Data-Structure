@@ -153,26 +153,3 @@ int main(){
     cout << endl;
     PosOrder(ROOT(T), T);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

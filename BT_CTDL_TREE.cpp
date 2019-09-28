@@ -121,7 +121,74 @@ void BT4b(){
     cout << number.top() << endl;
 }
 
+int difference(char a, char b) {
+    int n1, n2;
+    if (a == '*' || a == '/') n1 = 1;
+    else n1 = 0;
+    if (b == '*' || b == '/') n2 = 1;
+    else n2 = 0;
+    return n1 - n2;
+}
+
+void InOrder2PosOrder(){
+    string s;
+    cin >> s;
+    queue<char> ans;
+    stack<char> op;
+    for (int i = 0; i < s.size(); ++i) {
+        if (s[i] >= 'a' && s[i] <= 'z') ans.push(s[i]);
+        else {
+            if (s[i] == '(') {
+                op.push(s[i]);
+            }
+            else {
+                if (s[i] == ')') {
+                    while (!op.empty()) {
+                        if (op.top() != '(') ans.push(op.top());
+                        op.pop();
+                        if (!op.empty() && op.top() == '(') {
+                            op.pop();
+                            break;
+                        }
+                    }
+                }
+                else {
+                    if (!op.empty()){
+                        if (op.top() == '(') {
+                            op.push(s[i]);
+                            continue;
+                        }
+                        if (difference(s[i], op.top()) <= 0) {
+                            ans.push(op.top());
+                            op.pop();
+                            while (!op.empty()) {
+                                if (op.top() == '(') break;
+                                if (difference(s[i], op.top()) > 0) break;
+                                ans.push(op.top());
+                                op.pop();
+                            }
+                            op.push(s[i]);
+                        }
+                        else op.push(s[i]);
+                    }
+                    else {
+                        op.push(s[i]);
+                    }
+                }
+            }
+        }
+    }
+    while (!op.empty()) {
+        if (op.top() != '(') ans.push(op.top());
+        op.pop();
+    }
+    while (!ans.empty()) {
+        cout << ans.front() << " ";
+        ans.pop();
+    }
+}
+
 int main(){
-    BT4a();
-    BT4b();
+    freopen("input.txt", "r", stdin);
+    InOrder2PosOrder();
 }

@@ -40,8 +40,10 @@ Node Create3(DataType v, Tree first, Tree second, Tree third){
     Node n = (Node)malloc(sizeof(Node));
     n->Data = v;
     n->Leftmost_Child = first;
+    n->Right_Sibling = NULL;
     if (first != NULL) first->Right_Sibling = second;
     if (second != NULL) second->Right_Sibling = third;
+    return n;
 }
 
 void PreOrder(Node n){
@@ -132,6 +134,30 @@ void BT1(){
     BT2(T[13]);
 }
 
+int count_node(Tree T) {
+    int ans = 0;
+    if (T == NULL) return 0;
+    if (T->Leftmost_Child == NULL) return 1;
+    Node i = T->Leftmost_Child;
+    while (i != NULL) {
+        ans += count_node(i);
+        i = i->Right_Sibling;
+    }
+    return ans + 1;
+}
+
+int count_leaf(Tree T) {
+    int ans = 0;
+    if (T == NULL) return 0;
+    if (T->Leftmost_Child == NULL) return 1;
+    Node i = T->Leftmost_Child;
+    while (i != NULL) {
+        ans += count_leaf(i);
+        i = i->Right_Sibling;
+    }
+    return ans;
+}
+
 void BT5(){
     Tree T[15];
     T[0] = Create3('L', NULL, NULL, NULL);
@@ -146,13 +172,15 @@ void BT5(){
     T[9] = Create3('E', NULL, NULL, NULL);
     T[10] = Create3('F', T[8], NULL, NULL);
     T[11] = Create3('B', T[9], T[10], NULL);
-    T[12] = Create3('B', T[11], T[7], T[3]);
+    T[12] = Create3('A', T[11], T[7], T[3]);
+    cout << "PreOrder: ";
     PreOrder(T[12]);
-    cout << endl;
+    cout << "\nInOrder: ";
     InOrder(T[12]);
-    cout << endl;
+    cout << "\nPosOrder: ";
     PosOrder(T[12]);
-    cout << endl;
+    cout << "\nNumber of Node: " << count_node(T[12]);
+    cout << "\nNumber of Leaf: " << count_leaf(T[12]);
 }
 
 int main(){

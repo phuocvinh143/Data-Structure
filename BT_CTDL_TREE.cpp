@@ -188,7 +188,120 @@ void InOrder2PosOrder(){
     }
 }
 
+void InOrder2PreOrder(){
+    string s1, s = "";
+    cin >> s1;
+    for (int i = s1.size()-1; i >= 0; --i) {
+        if (s1[i] == '(') s += ')';
+        else if (s1[i] == ')') s += '(';
+        else s += s1[i];
+    }
+    cout << s << endl;
+    queue<char> ans;
+    stack<char> op;
+    for (int i = 0; i < s.size(); ++i) {
+        if (s[i] >= 'a' && s[i] <= 'z') ans.push(s[i]);
+        else {
+            if (s[i] == '(') {
+                op.push(s[i]);
+            }
+            else {
+                if (s[i] == ')') {
+                    while (!op.empty()) {
+                        if (op.top() != '(') ans.push(op.top());
+                        op.pop();
+                        if (!op.empty() && op.top() == '(') {
+                            op.pop();
+                            break;
+                        }
+                    }
+                }
+                else {
+                    if (!op.empty()){
+                        if (op.top() == '(') {
+                            op.push(s[i]);
+                            continue;
+                        }
+                        if (difference(s[i], op.top()) < 0) {
+                            ans.push(op.top());
+                            op.pop();
+                            while (!op.empty()) {
+                                if (op.top() == '(') break;
+                                if (difference(s[i], op.top()) >= 0) break;
+                                ans.push(op.top());
+                                op.pop();
+                            }
+                            op.push(s[i]);
+                        }
+                        else op.push(s[i]);
+                    }
+                    else {
+                        op.push(s[i]);
+                    }
+                }
+            }
+        }
+    }
+    while (!op.empty()) {
+        if (op.top() != '(') ans.push(op.top());
+        op.pop();
+    }
+    string res = "";
+    while (!ans.empty()) {
+        res = ans.front() + res;
+        ans.pop();
+    }
+    cout << res;
+}
+
+void PosOrder2InOrder(){
+    string s; cin >> s;
+    stack<string> ans;
+    for (int i = 0; i < s.size(); ++i) {
+        if (s[i] >= 'a' && s[i] <= 'z'){
+            string tmp = "";
+            tmp += s[i];
+            ans.push(tmp);
+        }
+        else {
+            string n1 = ans.top();
+            ans.pop();
+            string n2 = ans.top();
+            ans.pop();
+            string tmp = "(" + n2 + s[i] + n1 + ")";
+            ans.push(tmp);
+        }
+    }
+    cout << ans.top();
+}
+
+void PreOrder2InOrder(){
+    string s, s1; cin >> s1;
+    for (int i = s1.size()-1; i >= 0; --i) s += s1[i];
+    stack<string> ans;
+    for (int i = 0; i < s.size(); ++i) {
+        if (s[i] >= 'a' && s[i] <= 'z'){
+            string tmp = "";
+            tmp += s[i];
+            ans.push(tmp);
+        }
+        else {
+            string n1 = ans.top();
+            ans.pop();
+            string n2 = ans.top();
+            ans.pop();
+            string tmp = "(" + n2 + s[i] + n1 + ")";
+            ans.push(tmp);
+        }
+    }
+    for (int i = ans.top().size() - 1; i >= 0; --i) {
+        char t = ans.top()[i];
+        if (t == '(') cout << ")";
+        else if (t == ')') cout << "(";
+        else cout << t;
+    }
+}
+
 int main(){
-    freopen("input.txt", "r", stdin);
-    InOrder2PosOrder();
+
 }

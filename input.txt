@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-((a+b)+c*(d+e)+f)*(g+h)
-=======
-*+++ab*c+def+gh
->>>>>>> ad9394f3c0bcf3b872b210913d0ab72bb65debe5

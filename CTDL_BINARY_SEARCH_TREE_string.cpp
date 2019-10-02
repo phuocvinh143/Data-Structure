@@ -87,11 +87,13 @@ int main(){
     freopen("output.txt", "w", stdout);
     int n; cin >> n;
     Tree T = NULL;
+    KeyType root;
     for (int i = 1; i <= n; ++i) {
         string s; cin >> s;
+        if (i == 1) root = s;
         Insert_Node(s, T);
     }
-    InOrder(Search("HAIPHONG",T));
+    PreOrder(Search(root,T));
 }
 
 

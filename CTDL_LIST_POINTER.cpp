@@ -194,22 +194,19 @@ void BT9(){
 	READ_LIST(L1);
 	READ_LIST(L2);
 	Position i = First(L1), j = First(L2), k = L;
-	INSERT_LAST_LIST(oo, L1);
-	INSERT_LAST_LIST(oo, L2);
-	while (i != NULL && j != NULL) {
-		if (i->Element <= j->Element) {
+	while (i != NULL || j != NULL) {
+		if ((j == NULL) || i->Element <= j->Element) {
 			INSERT_LIST(i->Element, k, L);
 			k = k->Next;
 			i = i->Next;
+			continue;
 		}
-		else {
+		if ((i == NULL) || i->Element > j->Element) {
 			INSERT_LIST(j->Element, k, L);
 			k = k->Next;
 			j = j->Next;
 		}
 	}
-
-	DELETE_LAST_LIST(L);
 	PRINT_LIST(L);
 }
 
